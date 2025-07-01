@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Sam Houston 20NM Circle</name>
+    <Style id="yellowPoly">
+      <LineStyle>
+        <color>ff00ffff</color> <!-- Yellow outline (in aabbggrr format) -->
+        <width>2</width>
+      </LineStyle>
+      <PolyStyle>
+        <color>33ffff00</color> <!-- Transparent yellow fill -->
+      </PolyStyle>
+    </Style>
+    <Placemark>
+      <name>20NM Radius</name>
+      <styleUrl>#yellowPoly</styleUrl>
+      <Polygon>
+        <outerBoundaryIs>
+          <LinearRing>
+            <coordinates>
+              <!-- Circle coords will go here -->
+              {{CIRCLE_COORDS}}
+            </coordinates>
+          </LinearRing>
+        </outerBoundaryIs>
+      </Polygon>
+    </Placemark>
+  </Document>
+</kml>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>KML Viewer</title>
+
+    <!-- Leaflet CSS from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>KML File Uploader & Viewer</h2>
+
+    <!-- Upload form -->
+    <form method="POST" enctype="multipart/form-data" action="/upload">
+        <input type="file" name="kmlfile" accept=".kml">
+        <input type="submit" value="Upload KML">
+    </form>
+
+    <!-- Map container -->
+    <div id="map"></div>
+
+    <!-- Leaflet JS from CDN -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <!-- Local KML plugin -->
+    <script src="{{ url_for('static', filename='leaflet.kml.js') }}"></script>
+
+    <script>
+        // Create map centered on Houston
+        var map = L.map('map').setView([29.7604, -95.3698], 8);
+
+        // Optional: Overlay your static image (HoustonMap.png)
+        L.imageOverlay(
+            "{{ url_for('static', filename='HoustonMap.png') }}",
+            [[27.5, -98.5], [31.5, -92.5]] // Adjust as needed
+        ).addTo(map);
+
+        // Load and display KML after upload
+
+        {% if kml_file %}
+        var track = new L.KML("{{ url_for('uploaded_file', filename=kml_file) }}");
+        track.on("loaded", function(e) {
+        map.fitBounds(e.target.getBounds(), {
+            padding: [185, 185]  // tweak this to zoom out more or less
+        });
+
+});
+map.addLayer(track);
+{% endif %}
+    </script>
+</body>
+</html>
